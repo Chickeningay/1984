@@ -48,6 +48,7 @@ async def delete():
     for x in Queue:
         try:
             await x.delete()
+            Queue.remove(x)
         except:
             pass
 
