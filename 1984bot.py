@@ -41,15 +41,15 @@ async def on_message(message):
                 Queue.append(message)
                 
         
-@tasks.loop(minutes=20)
+@tasks.loop(hours=1)
 async def delete():
     global Queue
     global Queue2
     for x in Queue:
         try:
             await x.delete()
-            Queue.remove(x)
         except:
             pass
-
+        Queue.remove(x)
+        #probably would be best if we remove regardless of it succeeding or not
 client.run(bottoken)
