@@ -41,7 +41,7 @@ async def on_message(message):
                 Queue.append(message)
                 
         
-@tasks.loop(hours=1)
+@tasks.loop(minutes=20)
 async def delete():
     global Queue
     global Queue2
