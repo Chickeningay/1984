@@ -9,7 +9,6 @@ import discord
 from discord.ext import tasks
 client=discord.Client()
 Queue=[]
-Queue2=[]
 file1 = open('slurs.txt', 'r')
 Lines = file1.readlines()
 tokenfile = open('token.txt', 'r')
@@ -18,25 +17,20 @@ bottoken = tokenfile.read()
 async def on_ready():
     print('{0.user}'.format(client))
     delete.start()
-    delete2.start()
 @client.event
 async def on_message(message):	
-    global Queue 
-    global Queue2
+    global Queue  
     global Lines
-    if message.attachments!=[]:
-       Queue2.append(message)
-    else: 
-        for slur in Lines:
+    for slur in Lines:
         
-            new_slur=slur[:-2].upper()
-            if new_slur in message.content.upper():
-                if "fa".upper() in message.content.upper():
-                    if "fag".upper() in message.content.upper():
-                        Queue.append(message)
+        new_slur=slur[:-2].upper()
+        if new_slur in message.content.upper():
+            if "fa".upper() in message.content.upper():
+                if "fag".upper() in message.content.upper():
+                    Queue.append(message)
                     
                 else:
-                        break
+                    break
             elif "ni".upper() in message.content.upper():
                 if "nig".upper() in message.content.upper():
                     Queue.append(message)
@@ -47,20 +41,11 @@ async def on_message(message):
                 Queue.append(message)
                 
         
-@tasks.loop(minutes=15)
+@tasks.loop(hours=1)
 async def delete():
     global Queue
-    for x in Queue:
-        try:
-            await x.delete()
-        except:
-            pass
-        Queue.remove(x)
-        #probably would be best if we remove regardless of it succeeding or not
-@tasks.loop(minutes=30)
-async def delete2():
     global Queue2
-    for x in Queue2:
+    for x in Queue:
         try:
             await x.delete()
         except:
